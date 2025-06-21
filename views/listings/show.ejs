@@ -1,0 +1,192 @@
+<%layout("/layouts/boilerplate")%>
+
+<body>
+  <div class="container mt-4">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        <div
+          class="card shadow-sm"
+          style="width: 90%; margin: 0 auto; border: none"
+        >
+          <img
+            src="<%= listing.image.url %>"
+            class="card-img-top"
+            style="height: 400px; object-fit: cover"
+            alt="<%= listing.title %>"
+          />
+          <div class="card-body">
+            <h3 class="card-title mb-4"><%= listing.title %></h3>
+
+            <div class="listing-details mb-4">
+              <h5>Listing Details:</h5>
+              <ul class="list-unstyled">
+                <li class="mb-2">
+                  <strong>Owner:</strong> <%= listing.owner.username %>
+                </li>
+                <li class="mb-2">
+                  <strong>Description:</strong> <%= listing.description %>
+                </li>
+                <li class="mb-2">
+                  <strong>Price:</strong> ₹<%=
+                  listing.price.toLocaleString("en-IN") %>/night
+                </li>
+                <li class="mb-2">
+                  <strong>Location:</strong> <%= listing.location %>
+                </li>
+                <li class="mb-2">
+                  <strong>Country:</strong> <%= listing.country %>
+                </li>
+              </ul>
+            </div>
+            <%if(currUser && currUser._id.equals(listing.owner._id)){%>
+            <div class="d-flex gap-2 mt-4 mb-4">
+              <a href="/listings/<%=listing._id%>/edit" class="btn btn-primary"
+                >Edit Details</a
+              >
+              <form
+                method="POST"
+                action="/listings/<%=listing._id%>?_method=DELETE"
+              >
+                <button class="btn btn-danger">Delete Listing</button>
+              </form>
+            </div>
+            <%}%>
+            <hr />
+
+            <%if(currUser){%>
+            <div class="mt-3 mb-3">
+              <h4>Leave a Review</h4>
+              <form
+                method="post"
+                action="/listings/<%=listing.id%>/reviews"
+                novalidate
+                class="needs-validation"
+              >
+                <!-- <label clas="form-label" for="rating">Rating</label>
+                <input
+                  class="form-range"
+                  type="range"
+                  min="1"
+                  max="5"
+                  name="review[rating]"
+                /> -->
+
+                <fieldset class="starability-slot">
+                  <legend>Rating:</legend>
+                  <input
+                    type="radio"
+                    id="no-rate"
+                    class="input-no-rate"
+                    name="review[rating]"
+                    value="0"
+                    checked
+                    aria-label="No rating."
+                  />
+                  <input
+                    type="radio"
+                    id="second-rate1"
+                    name="review[rating]"
+                    value="1"
+                  />
+                  <label for="second-rate1" title="Terrible">1 star</label>
+                  <input
+                    type="radio"
+                    id="second-rate2"
+                    name="review[rating]"
+                    value="2"
+                  />
+                  <label for="second-rate2" title="Not good">2 stars</label>
+                  <input
+                    type="radio"
+                    id="second-rate3"
+                    name="review[rating]"
+                    value="3"
+                  />
+                  <label for="second-rate3" title="Average">3 stars</label>
+                  <input
+                    type="radio"
+                    id="second-rate4"
+                    name="review[rating]"
+                    value="4"
+                  />
+                  <label for="second-rate4" title="Very good">4 stars</label>
+                  <input
+                    type="radio"
+                    id="second-rate5"
+                    name="review[rating]"
+                    value="5"
+                  />
+                  <label for="second-rate5" title="Amazing">5 stars</label>
+                </fieldset>
+
+                <div class="mt-3 mb-3">
+                  <label class="form-label" for="Comment">Comments</label>
+                  <textarea
+                    class="form-control"
+                    name="review[comment]"
+                    required
+                  ></textarea>
+                  <div class="invalid-feedback">
+                    please add some comment for review
+                  </div>
+                </div>
+                <button class="btn btn-outline-dark">Submit</button>
+              </form>
+            </div>
+            <%}%>
+            <hr />
+
+            <p><b>All Reviews</b></p>
+            <div class="row gx-3">
+              <% for(review of listing.reviews){ %>
+              <div class="col-md-6 mb-3">
+                <!-- Column wrapper -->
+                <div class="card h-100">
+                  <!-- Card as separate element inside column -->
+                  <div class="card-body">
+                    <p
+                      class="starability-result card-text"
+                      data-rating="<%=review.rating%>"
+                    ></p>
+                    <h5 class="card-title">@<%=review.author.username%></h5>
+                    <p class="card-text"><%= review.comment %></p>
+
+                    <form
+                      method="POST"
+                      action="/listings/<%=listing._id%>/reviews/<%=review.id%>?_method=DELETE"
+                    >
+                      <%if(currUser &&
+                      currUser._id.equals(review.author._id)){%>
+                      <button class="btn btn-sm btn-dark">Delete</button>
+                      <%}%>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .card {
+      border-radius: 15px;
+      overflow: hidden;
+    }
+    .card-img-top {
+      object-position: center;
+    }
+    .listing-details {
+      background-color: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 10px;
+    }
+    .btn {
+      padding: 0.5rem 1.5rem;
+      font-weight: 500;
+    }
+  </style>
+</body>

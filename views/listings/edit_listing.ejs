@@ -1,0 +1,170 @@
+<%= layout("/layouts/boilerplate.ejs") %>
+<body>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        <div class="card shadow-sm">
+          <div class="card-header text-white" style="background-color: #fe424d">
+            <h2 class="h4 mb-0">Edit Listing</h2>
+          </div>
+          <div class="card-body">
+            <form
+              method="POST"
+              action="/listings/<%=listing._id%>?_method=PUT"
+              class="needs-validation"
+              novalidate
+              enctype="multipart/form-data"
+            >
+              <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title"
+                  name="title"
+                  placeholder="Enter property title"
+                  value="<%=listing.title%>"
+                  required
+                />
+                <div class="invalid-feedback">Please provide a title.</div>
+              </div>
+
+              <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea
+                  class="form-control"
+                  id="description"
+                  name="description"
+                  rows="3"
+                  placeholder="Enter detailed description"
+                  required
+                >
+<%=listing.description%></textarea
+                >
+                <div class="invalid-feedback">
+                  Please provide a description.
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="image" class="form-label">Upload New Image</label>
+                <input
+                  type="file"
+                  class="form-control"
+                  id="image"
+                  name="image"
+                  placeholder="Enter image URL"
+                />
+                <div class="invalid-feedback">
+                  Please provide a valid image.
+                </div>
+              </div>
+
+              <div class="mb-3 listing-image">
+                <img src="<%=listing.image.url%>" />
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="price" class="form-label">Price (₹/night)</label>
+                  <div class="input-group">
+                    <span class="input-group-text">₹</span>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="price"
+                      name="price"
+                      placeholder="Enter price per night"
+                      value="<%=listing.price%>"
+                      min="0"
+                      required
+                    />
+                  </div>
+                  <div class="invalid-feedback">
+                    Please provide a valid price.
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="location" class="form-label">Location</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="location"
+                    name="location"
+                    placeholder="Enter city/area"
+                    value="<%=listing.location%>"
+                    required
+                  />
+                  <div class="invalid-feedback">Please provide a location.</div>
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label for="country" class="form-label">Country</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="country"
+                  name="country"
+                  placeholder="Enter country name"
+                  value="<%=listing.country%>"
+                  required
+                />
+                <div class="invalid-feedback">Please provide a country.</div>
+              </div>
+
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-lg">
+                  <i class="bi bi-check-circle me-2"></i>Update Property
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .card {
+      border: none;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .card-header {
+      border-radius: 10px 10px 0 0 !important;
+    }
+    .form-control,
+    .input-group-text {
+      border-radius: 8px;
+    }
+    .form-control:focus {
+      border-color: #86b7fe;
+      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+    .listing-image {
+      width: 100%;
+      display: flex;
+      height: 400px;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    .btn-primary {
+      background-color: #fe424d;
+      border: none;
+      padding: 10px 20px;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    .btn-primary:hover {
+      background-color: #c8323b;
+      transform: translateY(-2px);
+    }
+  </style>
+</body>
