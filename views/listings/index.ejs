@@ -1,7 +1,102 @@
 <% layout("/layouts/boilerplate") %>
+<style>
+  #filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .filter {
+    text-align: center;
+    margin-right: 2rem;
+    opacity: 0.8;
+   
+  }
+  .filter:hover {
+    opacity: 1;
+  }
+
+   .filter p {
+
+    font-size: .9rem;
+    
+  }
+
+ 
+  .tax-info{
+    display:none;
+  }
+
+  .tax-toggle{
+    border:1px solid black;
+    border-radius:1rem;
+    height: 3.5rem;
+    padding : 1rem;
+    margin:1rem;
+    margin-left:7.2rem;
+    margin-bottom:2rem; 
+    display:flex;
+    align-items: center;
+    
+  }
+
+</style>
 <body>
   <div class="container mt-4">
-    <h2>All Listings</h2>
+    <!-- <h2>All Listings</h2> -->
+    <div id="filters">
+      <div class="filter">
+        <div><i class="fa-solid fa-fire"></i></div>
+        <p>Trendings</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-bed"></i></div>
+        <p>Bed</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-mountain-city"></i></i></div>
+        <p>Iconic City</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-mountain-sun"></i></div>
+        <p>Mountain</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-brands fa-fort-awesome"></i></div>
+        <p>Castle</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-person-swimming"></i></div>
+        <p>Amazing Pools</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-regular fa-snowflake"></i></div>
+        <p>Artic</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-campground"></i></div>
+        <p>camping</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-tractor"></i></div>
+        <p>farms</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-igloo"></i></div>
+        <p>Domes</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-house-flood-water"></i></div>
+        <p>house Boat</p>
+      </div>
+
+      <div class="tax-toggle">
+       <div class="form-check form-switch">
+       <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+       <label class="form-check-label" for="switchCheckDefault">Diplay after taxes</label>
+      </div>
+      </div>
+    </div>
     <div class="row">
       <% for(let listing of allListings) { %>
       <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
@@ -16,8 +111,11 @@
             />
             <div class="card-body d-flex flex-column">
               <h5 class="card-title text-dark"><%= listing.title %></h5>
-              <p class="card-text mt-auto text-dark">
-                &#8377;<%= listing.price.toLocaleString("en-IN") %>/night
+              <span class="price" data-price="<%= listing.price %>">
+  ₹<%= listing.price.toLocaleString("en-IN") %>/night
+</span>
+
+                <p class="tax-info"> *price after 18 % GST</p>
               </p>
             </div>
           </div>
@@ -33,4 +131,37 @@
       border-radius: 1rem;
     }
   </style>
+
+
+<script>
+  const taxSwitch = document.getElementById("switchCheckDefault");
+   
+
+  taxSwitch.addEventListener("change", () => {
+    const priceSpans = document.querySelectorAll(".price");
+    const taxInfo= document.getElementsByClassName("tax-info")
+    priceSpans.forEach(span => {
+      const base = parseFloat(span.dataset.price);
+
+      if (taxSwitch.checked) {
+        // Calculate and display price with 18% GST
+
+        const taxed = Math.round(base * 1.18);
+        span.textContent = `₹${taxed.toLocaleString("en-IN")}`;
+      } else {
+        // Revert to base price
+        span.textContent = `₹${base.toLocaleString("en-IN")}`;
+      }
+    });
+    for(info of taxInfo){
+       if(taxSwitch.checked){
+          info.style.display="inline"
+       }
+       else{
+         info.style.display="none";
+       }
+    }
+  });
+</script>
+
 </body>

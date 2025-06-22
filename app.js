@@ -14,6 +14,7 @@ const wrapAsync = require("./utils/wrapasync.js");
 const ExpressError = require("./utils/ExpressError.js");
 const Review = require("./models/review.js");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -30,7 +31,26 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
+//atlas database connect
+dburl = process.env.MONGO_URI;
+async function main() {
+  await mongoose.connect(dburl);
+}
+
+const store = MongoStore.create({
+  mongoUrl: dburl,
+  crypto: {
+    secret: "mysupersecretcode",
+  },
+  touchAfter: 24 * 3600,
+});
+
+store.on("error", () => {
+  console.log("error in MONGO SESSION STORE", err);
+});
+
 const sessionOptions = {
+  store,
   secret: "mysupersecretcode",
   resave: false,
   saveUninitialized: true,
@@ -61,10 +81,6 @@ app.use((req, res, next) => {
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/", userRouter);
-
-async function main() {
-  await mongoose.connect(process.env.MONGO_URI);
-}
 
 main()
   .then(() => {
