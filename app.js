@@ -108,12 +108,18 @@ app.use((req, res, next) => {
   next(new ExpressError(404, "Page Not Found!"));
 });
 
+// app.use((err, req, res, next) => {
+//   let { status = 500, message2 = "some error occured" } = err;
+//   // res.status(status).send(message2);
+//   console.log(err.message);
+//   next();
+// });
+
 app.use((err, req, res, next) => {
-  let { status = 500, message2 = "some error occured" } = err;
-  // res.status(status).send(message2);
-  console.log(err.message);
-  next();
+  let { status = 500, message = "some error occured" } = err;
+  res.status(status).send(message);
 });
-app.listen(8080, () => {
-  console.log("server listening at port 8080");
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`server listening at port ${PORT}`);
 });
