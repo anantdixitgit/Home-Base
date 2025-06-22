@@ -109,8 +109,10 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  let { status = 500, message = "some error occured" } = err;
-  res.status(status).send(message);
+  // let { status = 500, message2 = "some error occured" } = err;
+  // res.status(status).send(message2);
+  // console.log(err.message)
+  res.send("Error message: ", err.message);
 });
 app.listen(8080, () => {
   console.log("server listening at port 8080");
