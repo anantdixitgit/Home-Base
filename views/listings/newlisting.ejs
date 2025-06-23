@@ -105,6 +105,21 @@
                 <div class="invalid-feedback">Please provide a country.</div>
               </div>
 
+              <div class="mb-4">
+                <label for="propertyType" class="form-label">Property Type</label>
+                <select class="form-select beautiful-select" id="propertyType" name="propertyType">
+                  <option value="">Select property type (optional)</option>
+                  <option value="Mountain">Mountain</option>
+                  <option value="Castle">Castle</option>
+                  <option value="Poolside">Poolside</option>
+                  <option value="Arctic">Arctic</option>
+                  <option value="Camping">Camping</option>
+                  <option value="Farms">Farms</option>
+                  <option value="Domes">Domes</option>
+                  <option value="Houseboat">Houseboat</option>
+                </select>
+              </div>
+
               <div class="d-grid">
                 <button type="submit" class="btn btn-primary btn-lg">
                   <i class="bi bi-plus-circle me-2"></i>Add Property
@@ -151,6 +166,15 @@
     .btn-primary:hover {
       background-color: #c8323b;
       transform: translateY(-2px);
+    }
+    .beautiful-select {
+      background-color: #fff;
+      border-color: #ced4da;
+      color: #212529;
+    }
+    .beautiful-select:focus {
+      border-color: #86b7fe;
+      box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
     }
   </style>
 </body>

@@ -24,14 +24,8 @@ module.exports.showlistingdata = async (req, res) => {
 };
 
 module.exports.createListing = async (req, res, next) => {
-  // Check for uploaded file
-  if (!req.file) {
-    console.log("❌ File not uploaded");
-    req.flash("error", "Please upload an image.");
-    return res.redirect("/listings/new");
-  }
-
-  const { title, description, price, location, country } = req.body;
+  // Image is now optional
+  const { title, description, price, location, country, propertyType } = req.body;
 
   const listing = new Listing({
     title,
@@ -39,12 +33,16 @@ module.exports.createListing = async (req, res, next) => {
     price,
     location,
     country,
-    image: {
+    owner: req.user._id,
+    ...(propertyType && { propertyType })
+  });
+
+  if (req.file) {
+    listing.image = {
       url: req.file.path,
       filename: req.file.filename,
-    },
-    owner: req.user._id,
-  });
+    };
+  }
 
   await listing.save();
   req.flash("success", "New Listing Created");
