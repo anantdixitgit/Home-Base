@@ -89,7 +89,7 @@ main()
   .catch((err) => console.log(err));
 
 app.get("/", (req, res) => {
-  res.send("hi i am home page");
+  res.render("listings/homepage.ejs");
 });
 
 app.get("/demouser", async (req, res) => {
