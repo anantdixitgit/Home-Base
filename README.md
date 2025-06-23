@@ -2,7 +2,7 @@
 Home Base a full-stack 🧳 travel platform that allows users to explore, list, and review travel destinations 🗺️. Inspired by platforms like Airbnb, it offers a seamless experience for both travelers 🧭 and administrators 🛠️.
 
 🚀 Live Demo
-🔗 https://wanderlust-1-ieit.onrender.com/
+🔗https://home-base.onrender.com
 
 🛠️ Technologies Used
 
